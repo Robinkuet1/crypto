@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+    //"github.com/robinkuet1/crypto-node/node"
+    "github.com/robinkuet1/crypto-node/node/blockchain"
+    //"fmt"
+)
 
 func main() {
-    fmt.Println("hello world")
+    var b blockchain.Blockchain
+    b.InitializeEmpty()
+    for {
+        b.TryMineBlock()
+        b.LastBlock().Print()
+    }
 }
