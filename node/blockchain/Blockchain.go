@@ -28,8 +28,8 @@ func (b *Blockchain) Print() {
 	}
 }
 
-func GetScore(b Block) byte {
-	var hash = HashToByteArray(b.Hash())
+func GetScore(b Hash) byte {
+	var hash = HashToByteArray(b)
 
 	var i byte = 0
 	for i < 255 {
@@ -40,29 +40,6 @@ func GetScore(b Block) byte {
 		i++
 	}
 	return 0
-}
-
-func (b *Blockchain) TryMineBlock() {
-	last := b.LastBlock()
-
-	var i int64 = 0
-	for score := GetScore(*last); score < last.Difficulty; score = GetScore(*last) {
-		//powData = random
-		last.PowData[0] = (byte)(i)
-		last.PowData[1] = (byte)(i >> 8)
-		last.PowData[2] = (byte)(i >> 16)
-		last.PowData[3] = (byte)(i >> 24)
-
-		i++
-	}
-
-	newBlock := new(Block)
-	newBlock.PrevHash = b.LastBlock().Hash()
-	newBlock.Timestamp = time.Now().Unix()
-	newBlock.Difficulty = b.CalculateDifficulty()
-
-	b.Blocks = append(b.Blocks, *newBlock)
-
 }
 
 func (b *Blockchain) CalculateDifficulty() byte {
